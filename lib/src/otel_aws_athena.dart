@@ -2,7 +2,6 @@
 // Copyright 2025-2026 Mindful Software LLC d/b/a Dartastic.io, All rights reserved.
 
 import 'package:dartastic_opentelemetry/dartastic_opentelemetry.dart';
-import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 
 import 'otel_aws_athena_suppression.dart';
 
@@ -70,86 +69,120 @@ Future<T> tracedAwsAthena<T>({
   final t = tracer ?? OTel.tracerProvider().getTracer('otel_aws_athena');
   final span = t.startSpan('aws_athena $operation', kind: SpanKind.client);
   try {
-    span.setStringAttribute('rpc.system', 'aws-api');
-    span.setStringAttribute('rpc.service', 'Athena');
-    span.setStringAttribute('rpc.method', operation);
-    span.setStringAttribute('db.system', 'athena');
+    span.addAttributes(
+        OTel.attributes([OTel.attributeString('rpc.system', 'aws-api')]));
+    span.addAttributes(
+        OTel.attributes([OTel.attributeString('rpc.service', 'Athena')]));
+    span.addAttributes(
+        OTel.attributes([OTel.attributeString('rpc.method', operation)]));
+    span.addAttributes(
+        OTel.attributes([OTel.attributeString('db.system', 'athena')]));
     final r = await invoke();
     final res = r.result;
     if (res != null) {
       if (res.region != null) {
-        span.setStringAttribute('aws.region', res.region!);
+        span.addAttributes(
+            OTel.attributes([OTel.attributeString('aws.region', res.region!)]));
       }
       if (res.account != null) {
-        span.setStringAttribute('aws.account.id', res.account!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('aws.account.id', res.account!)]));
       }
       if (res.workgroup != null) {
-        span.setStringAttribute('aws.athena.workgroup', res.workgroup!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('aws.athena.workgroup', res.workgroup!)]));
       }
       if (res.engineVersion != null) {
-        span.setStringAttribute(
-            'aws.athena.engine_version', res.engineVersion!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString('aws.athena.engine_version', res.engineVersion!)
+        ]));
       }
       if (res.queryExecutionId != null) {
-        span.setStringAttribute(
-            'aws.athena.query.execution_id', res.queryExecutionId!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString(
+              'aws.athena.query.execution_id', res.queryExecutionId!)
+        ]));
       }
       if (res.queryState != null) {
-        span.setStringAttribute('aws.athena.query.state', res.queryState!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('aws.athena.query.state', res.queryState!)]));
       }
       if (res.statementType != null) {
-        span.setStringAttribute(
-            'aws.athena.statement.type', res.statementType!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString('aws.athena.statement.type', res.statementType!)
+        ]));
       }
       if (res.dataCatalog != null) {
-        span.setStringAttribute('aws.athena.data_catalog', res.dataCatalog!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString('aws.athena.data_catalog', res.dataCatalog!)
+        ]));
       }
       if (res.database != null) {
-        span.setStringAttribute('db.name', res.database!);
+        span.addAttributes(
+            OTel.attributes([OTel.attributeString('db.name', res.database!)]));
       }
       if (res.outputLocation != null) {
-        span.setStringAttribute(
-            'aws.athena.output_location', res.outputLocation!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString(
+              'aws.athena.output_location', res.outputLocation!)
+        ]));
       }
       if (res.dataScannedBytes != null) {
-        span.setIntAttribute(
-            'aws.athena.data_scanned_bytes', res.dataScannedBytes!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt(
+              'aws.athena.data_scanned_bytes', res.dataScannedBytes!)
+        ]));
       }
       if (res.engineExecutionTimeMs != null) {
-        span.setIntAttribute(
-            'aws.athena.engine_execution_time_ms', res.engineExecutionTimeMs!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt(
+              'aws.athena.engine_execution_time_ms', res.engineExecutionTimeMs!)
+        ]));
       }
       if (res.queryQueueTimeMs != null) {
-        span.setIntAttribute(
-            'aws.athena.query_queue_time_ms', res.queryQueueTimeMs!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt(
+              'aws.athena.query_queue_time_ms', res.queryQueueTimeMs!)
+        ]));
       }
       if (res.totalExecutionTimeMs != null) {
-        span.setIntAttribute(
-            'aws.athena.total_execution_time_ms', res.totalExecutionTimeMs!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt(
+              'aws.athena.total_execution_time_ms', res.totalExecutionTimeMs!)
+        ]));
       }
       if (res.rowsReturned != null) {
-        span.setIntAttribute('aws.athena.rows_returned', res.rowsReturned!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt('aws.athena.rows_returned', res.rowsReturned!)
+        ]));
       }
       if (res.resultSetSizeBytes != null) {
-        span.setIntAttribute(
-            'aws.athena.result_set_size_bytes', res.resultSetSizeBytes!);
+        span.addAttributes(OTel.attributes([
+          OTel.attributeInt(
+              'aws.athena.result_set_size_bytes', res.resultSetSizeBytes!)
+        ]));
       }
       if (res.outputType != null) {
-        span.setStringAttribute('aws.athena.output.type', res.outputType!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('aws.athena.output.type', res.outputType!)]));
       }
       if (res.statusCode != null) {
-        span.setIntAttribute('http.response.status_code', res.statusCode!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeInt('http.response.status_code', res.statusCode!)]));
       }
       if (res.errorCode != null) {
-        span.setStringAttribute('aws.athena.error.code', res.errorCode!);
+        span.addAttributes(OTel.attributes(
+            [OTel.attributeString('aws.athena.error.code', res.errorCode!)]));
       }
       final fail = res.errorCode != null ||
           (res.statusCode != null && res.statusCode! >= 400) ||
           res.queryState == 'FAILED' ||
           res.queryState == 'CANCELLED';
       if (fail) {
-        span.setStringAttribute(
-            ErrorResource.errorType.key, res.errorCode ?? 'aws_athena.error');
+        span.addAttributes(OTel.attributes([
+          OTel.attributeString(
+              ErrorResource.errorType.key, res.errorCode ?? 'aws_athena.error')
+        ]));
         span.setStatus(SpanStatusCode.Error, res.errorMessage);
       }
     }

@@ -6,6 +6,7 @@ import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 import 'otel_aws_athena_suppression.dart';
 
 class AwsAthenaResult {
+  /// Creates a result.
   const AwsAthenaResult({
     this.region,
     this.account,
@@ -51,8 +52,13 @@ class AwsAthenaResult {
   final String? errorMessage;
 }
 
+/// What a traced call returned: the value for the caller plus fields
+/// recorded on the span.
 class AwsAthenaCallResult<T> {
+  /// Creates a call result.
   const AwsAthenaCallResult({required this.value, this.result});
+
+  /// The value returned to the caller.
   final T value;
   final AwsAthenaResult? result;
 }

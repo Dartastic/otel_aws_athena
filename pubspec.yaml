@@ -2,7 +2,7 @@ name: otel_aws_athena
 description: >-
   OpenTelemetry instrumentation for aws_athena by Dartastic.io. Adds standard
   OpenTelemetry observability to applications that use aws_athena.
-version: 0.1.0-wip
+version: 0.1.0
 repository: https://github.com/dartastic/otel_aws_athena
 homepage: https://dartastic.io
 
